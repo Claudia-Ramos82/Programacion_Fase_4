@@ -1,0 +1,24 @@
+[2026-11-16 12:59:32] [INFO] === INICIO DE EJECUCIÓN DEL SISTEMA SOFTWARE FJ ===
+[2026-11-16 12:59:32] [INFO] Cliente registrado exitosamente: [C001] Deivinson Fontalvo
+[2026-11-16 12:59:32] [INFO] Cliente registrado exitosamente: [C002] Claudia Líder
+[2026-11-16 12:59:32] [ERROR] Error al validar nombre de cliente ('Jo'): mínimo 3 caracteres.
+[2026-11-16 12:59:32] [INFO] Reserva [R001] CONFIRMADA para Deivinson Fontalvo. Total: $357.0
+[2026-11-16 12:59:32] [INFO] Reserva [R002] CONFIRMADA para Claudia Líder. Total: $212.5
+[2026-11-16 12:59:32] [INFO] Reserva [R003] CONFIRMADA para Deivinson Fontalvo. Total: $380.0
+[2026-11-16 12:59:32] [ERROR] Duración inválida en reserva [R004]: '-2'.
+[2026-11-16 12:59:32] [ERROR] La reserva requiere una instancia válida de Servicio.
+[2026-11-16 12:59:32] [INFO] Reserva [R001] CANCELADA por el cliente Deivinson Fontalvo.
+[2026-11-16 12:59:32] [ERROR] Fallo al procesar reserva [R001]: La reserva [R001] está cancelada y no puede confirmarse.
+[2026-11-16 12:59:32] [INFO] === FIN DE EJECUCIÓN SIN INTERRUPCIONES ===
+[2026-11-16 13:06:23] [INFO] === INICIO DE EJECUCIÓN DEL SISTEMA SOFTWARE FJ ===
+[2026-11-16 13:06:23] [INFO] Cliente registrado exitosamente: [C001] Deivinson Fontalvo
+[2026-11-16 13:06:23] [INFO] Cliente registrado exitosamente: [C002] Claudia Líder
+[2026-11-16 13:06:23] [ERROR] Error al validar nombre de cliente ('Jo'): mínimo 3 caracteres.
+[2026-11-16 13:06:23] [INFO] Reserva [R001] CONFIRMADA para Deivinson Fontalvo. Total: $357.0
+[2026-11-16 13:06:23] [INFO] Reserva [R002] CONFIRMADA para Claudia Líder. Total: $212.5
+[2026-11-16 13:06:24] [INFO] Reserva [R003] CONFIRMADA para Deivinson Fontalvo. Total: $380.0
+[2026-11-16 13:06:24] [ERROR] Duración inválida en reserva [R004]: '-2'.
+[2026-11-16 13:06:24] [ERROR] La reserva requiere una instancia válida de Servicio.
+[2026-11-16 13:06:24] [INFO] Reserva [R001] CANCELADA por el cliente Deivinson Fontalvo.
+[2026-11-16 13:06:24] [ERROR] Fallo al procesar reserva [R001]: La reserva [R001] está cancelada y no puede confirmarse.
+[2026-11-16 13:06:24] [INFO] === FIN DE EJECUCIÓN SIN INTERRUPCIONES ===
