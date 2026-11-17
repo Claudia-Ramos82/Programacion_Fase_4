@@ -17,6 +17,21 @@ class ReservaInvalidaError(SoftwareFJError):
     """Se lanza cuando una reserva tiene datos erróneos o falla al procesarse."""
     pass
 
+class ServicioInvalidoError(SoftwareFJError):
+    """Se lanza cuando un servicio se intenta crear con datos mal formados
+    (código vacío, tarifa negativa, capacidad o especialidad inválidas)."""
+    pass
+
+class ParametroServicioError(SoftwareFJError):
+    """Se lanza cuando los parámetros de cálculo de un servicio son inválidos
+    (cantidad no positiva, descuento fuera de rango, recargo negativo, etc.)."""
+    pass
+
+class CalculoInconsistenteError(SoftwareFJError):
+    """Se lanza cuando el resultado de un cálculo de costo no es coherente
+    (por ejemplo, un total negativo o no numérico)."""
+    pass
+
 
 # --- SISTEMA DE REGISTRO DE LOGS ---
 class LoggerSistema:
