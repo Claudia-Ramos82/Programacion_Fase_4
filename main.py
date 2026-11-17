@@ -1,7 +1,7 @@
 from models.servicio import ServicioSalas, ServicioEquipos, ServicioAsesorias
 from models.cliente import Cliente
 from models.reserva import Reserva
-from models.excepciones import SoftwareFJError, LoggerSistema
+from models.excepciones import SoftwareFJError, ServicioInvalidoError, LoggerSistema
 
 def ejecutar_simulaciones():
     logger = LoggerSistema()
@@ -9,7 +9,7 @@ def ejecutar_simulaciones():
     
     print("==================================================")
     print("   SOFTWARE FJ - SISTEMA INTEGRAL DE GESTIÓN     ")
-    print("   Orquestación de las 10 Simulaciones Oficiales  ")
+    print("   Orquestación de las 15 Simulaciones Oficiales  ")
     print("==================================================\n")
 
     # Listas en memoria (sin base de datos, según la guía)
@@ -102,8 +102,80 @@ def ejecutar_simulaciones():
     except SoftwareFJError as e:
         print(f"  -> Operación bloqueada correctamente: {e}")
 
-    # --- SIMULACIÓN 10: Reporte polimórfico general de entidades en memoria ---
-    print("\n--- Simulación 10: Reporte Polimórfico de Todas las Entidades ---")
+    # ==================================================================
+    # Simulaciones 10 a 14 - Aporte de Jonathan Gómez Lobo
+    # Creación correcta e incorrecta de servicios, disponibilidad y
+    # métodos sobrecargados de cotización.
+    # ==================================================================
+
+    # --- SIMULACIÓN 10: Creación CORRECTA de un nuevo servicio ---
+    print("\n--- Simulación 10: Creación CORRECTA de un servicio (Sala auditorio) ---")
+    try:
+        auditorio = ServicioSalas("S002", 250.0, 80)
+    except SoftwareFJError as e:
+        print(f"  -> Error controlado: {e}")
+    else:
+        # El bloque else solo se ejecuta si la creación no lanzó excepciones
+        servicios.append(auditorio)
+        print(f"  -> Éxito: {auditorio.describir()}")
+
+    # --- SIMULACIÓN 11: Creación INCORRECTA de servicios (datos mal formados) ---
+    print("\n--- Simulación 11: Creación INCORRECTA de servicios (tarifa, código y capacidad) ---")
+    datos_invalidos = [
+        (ServicioEquipos, ("E002", -30.0, "Proyector")),   # Tarifa negativa
+        (ServicioAsesorias, ("", 120.0, "Ciberseguridad")),  # Código vacío
+        (ServicioSalas, ("S003", "cien", 10)),             # Tarifa no numérica
+        (ServicioSalas, ("S004", 90.0, 0)),                # Capacidad en cero
+    ]
+    for clase, argumentos in datos_invalidos:
+        try:
+            servicios.append(clase(*argumentos))
+        except ServicioInvalidoError as e:
+            causa = f" (causa original: {type(e.__cause__).__name__})" if e.__cause__ else ""
+            print(f"  -> Servicio rechazado: {e}{causa}")
+
+    # --- SIMULACIÓN 12: Reserva FALLIDA porque el servicio NO está disponible ---
+    print("\n--- Simulación 12: Reserva FALLIDA (servicio en mantenimiento) ---")
+    servicios[1].desactivar("mantenimiento preventivo")
+    try:
+        r_err3 = Reserva("R006", clientes[1], servicios[1], 2)
+        r_err3.procesar_y_confirmar()
+    except SoftwareFJError as e:
+        print(f"  -> Excepción capturada correctamente: {e}")
+        print(f"     Causa encadenada: {type(e.__cause__).__name__}: {e.__cause__}")
+    finally:
+        # El finally siempre deja el equipo activo de nuevo para las demás operaciones
+        servicios[1].activar()
+        print("  -> El equipo vuelve a quedar disponible (bloque finally).")
+
+    # --- SIMULACIÓN 13: Cálculo con parámetros inválidos (descuento del 150 %) ---
+    print("\n--- Simulación 13: Cálculo FALLIDO por parámetros inválidos ---")
+    try:
+        r_err4 = Reserva("R007", clientes[0], servicios[1], 3)
+        r_err4.procesar_y_confirmar(descuento_porcentaje=150.0)
+    except SoftwareFJError as e:
+        print(f"  -> Excepción capturada correctamente: {e}")
+        print(f"     Causa encadenada: {type(e.__cause__).__name__}: {e.__cause__}")
+
+    # --- SIMULACIÓN 14: Métodos sobrecargados de cotización ---
+    print("\n--- Simulación 14: Cotización con métodos sobrecargados ---")
+    asesoria = servicios[2]
+    cotizaciones = [
+        ("Entero (2 sesiones)", 2),
+        ("Diccionario (3 sesiones + recargo)", {"cantidad": 3, "recargo_complejidad": 60.0}),
+        ("Lista (pedidos de 1, 2 y 4 sesiones)", [1, 2, 4]),
+        ("Diccionario sin 'cantidad' (inválido)", {"recargo_complejidad": 10.0}),
+        ("Texto (tipo no soportado)", "tres"),
+    ]
+    for descripcion, argumento in cotizaciones:
+        try:
+            valor = asesoria.cotizar(argumento)
+            print(f"  -> {descripcion}: ${valor}")
+        except SoftwareFJError as e:
+            print(f"  -> {descripcion}: rechazada -> {e}")
+
+    # --- SIMULACIÓN 15: Reporte polimórfico general de entidades en memoria ---
+    print("\n--- Simulación 15: Reporte Polimórfico de Todas las Entidades ---")
     entidades = clientes + servicios + reservas
     for entidad in entidades:
         print(f"  * {entidad.obtener_detalles()}")
