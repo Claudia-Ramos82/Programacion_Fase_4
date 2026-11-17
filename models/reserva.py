@@ -46,7 +46,10 @@ class Reserva(EntidadBase):
         try:
             if self.estado == "Cancelada":
                 raise ReservaInvalidaError(f"La reserva [{self._codigo}] está cancelada y no puede confirmarse.")
-            
+
+            # Antes de calcular se comprueba que el servicio siga disponible
+            self.servicio.verificar_disponibilidad()
+
             # Llama polimórficamente a calcular_costo de Sala, Equipo o Asesoría
             self.costo_total = self.servicio.calcular_costo(self.duracion, **kwargs)
             if self.costo_total <= 0:
